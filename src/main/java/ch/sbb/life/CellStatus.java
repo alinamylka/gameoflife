@@ -6,12 +6,12 @@ import java.util.List;
 public enum CellStatus {
     ALIVE {
         @Override
-        public CellStatus nextStatus(long aliveNeighbours) {
+        protected CellStatus nextStatus(long aliveNeighbours) {
             return aliveNeighbours == 2 || aliveNeighbours == 3 ? ALIVE : DEAD;
         }
     }, DEAD {
         @Override
-        public CellStatus nextStatus(long aliveNeighbours) {
+        protected CellStatus nextStatus(long aliveNeighbours) {
             return aliveNeighbours == 3 ? ALIVE : DEAD;
         }
     };
