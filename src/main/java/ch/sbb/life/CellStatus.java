@@ -1,4 +1,4 @@
-package ch.sbb.live;
+package ch.sbb.life;
 
 
 import java.util.List;

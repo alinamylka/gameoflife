@@ -1,10 +1,10 @@
-package ch.sbb.live;
+package ch.sbb.life;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static ch.sbb.live.CellPosition.pos;
+import static ch.sbb.life.CellPosition.pos;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CellPositionTest {

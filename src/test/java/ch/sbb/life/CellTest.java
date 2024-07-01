@@ -1,9 +1,9 @@
-package ch.sbb.live;
+package ch.sbb.life;
 
 import org.junit.jupiter.api.Test;
 
-import static ch.sbb.live.CellStatus.ALIVE;
-import static ch.sbb.live.CellStatus.DEAD;
+import static ch.sbb.life.CellStatus.ALIVE;
+import static ch.sbb.life.CellStatus.DEAD;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CellTest {

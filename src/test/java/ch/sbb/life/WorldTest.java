@@ -1,4 +1,4 @@
-package ch.sbb.live;
+package ch.sbb.life;
 
 import org.junit.jupiter.api.Test;
 
@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import static ch.sbb.live.CellPosition.pos;
-import static ch.sbb.live.CellStatus.ALIVE;
-import static ch.sbb.live.CellStatus.DEAD;
+import static ch.sbb.life.CellPosition.pos;
+import static ch.sbb.life.CellStatus.ALIVE;
+import static ch.sbb.life.CellStatus.DEAD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WorldTest {
