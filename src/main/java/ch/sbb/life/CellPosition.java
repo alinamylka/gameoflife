@@ -12,14 +12,18 @@ public class CellPosition {
         this.y = y;
     }
 
+    public static CellPosition pos(int x, int y) {
+        return new CellPosition(x, y);
+    }
+
     public Set<CellPosition> neighbours() {
         return Set.of(pos(x - 1, y - 1), pos(x, y - 1), pos(x + 1, y - 1),
                 pos(x - 1, y), pos(x + 1, y),
                 pos(x - 1, y + 1), pos(x, y + 1), pos(x + 1, y + 1));
     }
 
-    public static CellPosition pos(int x, int y) {
-        return new CellPosition(x, y);
+    public CellStatus toStatus(Set<CellPosition> aliveCells) {
+        return aliveCells.contains(this) ? CellStatus.ALIVE : CellStatus.DEAD;
     }
 
     @Override
@@ -40,9 +44,5 @@ public class CellPosition {
         return "(x=" + x +
                 ",y=" + y +
                 ')';
-    }
-
-    public CellStatus toStatus(Set<CellPosition> aliveCells) {
-        return aliveCells.contains(this) ? CellStatus.ALIVE : CellStatus.DEAD;
     }
 }
