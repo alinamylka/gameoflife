@@ -1,7 +1,9 @@
 package ch.sbb.life;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CellPosition {
     private final int x;
@@ -16,10 +18,17 @@ public class CellPosition {
         return new CellPosition(x, y);
     }
 
-    public Set<CellPosition> neighbours() {
+    Set<CellPosition> neighbours() {
         return Set.of(pos(x - 1, y - 1), pos(x, y - 1), pos(x + 1, y - 1),
                 pos(x - 1, y), pos(x + 1, y),
                 pos(x - 1, y + 1), pos(x, y + 1), pos(x + 1, y + 1));
+    }
+
+    public List<CellStatus> neighbourStatus(Set<CellPosition> aliveCells) {
+        return neighbours()
+                .stream()
+                .map(neighbour -> neighbour.toStatus(aliveCells))
+                .collect(Collectors.toList());
     }
 
     public CellStatus toStatus(Set<CellPosition> aliveCells) {

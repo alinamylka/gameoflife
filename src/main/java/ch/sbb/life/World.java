@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static ch.sbb.life.CellPosition.pos;
+
 public class World {
     private final Set<CellPosition> aliveCells;
     private final int width;
@@ -17,19 +19,14 @@ public class World {
 
     public World step() {
         final Set<CellPosition> nextActiveCells = IntStream.range(0, width)
-                .mapToObj(x -> IntStream.range(0, height).mapToObj(y -> activeCellPos(x, y)).filter(Optional::isPresent).map(Optional::get))
+                .mapToObj(x -> IntStream.range(0, height).mapToObj(y -> activeCellPos(pos(x, y))).filter(Optional::isPresent).map(Optional::get))
                 .flatMap(stream -> stream).collect(Collectors.toSet());
         return new World(nextActiveCells, width, height);
     }
 
-    private Optional<CellPosition> activeCellPos(int x, int y) {
-        CellPosition pos = CellPosition.pos(x, y);
-        List<CellStatus> neighbours = pos.neighbours()
-                .stream()
-                .map(neighbour -> neighbour.toStatus(aliveCells))
-                .collect(Collectors.toList());
+    private Optional<CellPosition> activeCellPos(CellPosition pos) {
         return pos.toStatus(aliveCells)
-                .nextStatus(neighbours)
+                .nextStatus(pos.neighbourStatus(aliveCells))
                 .activeCellPosition(pos);
     }
 
