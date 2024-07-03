@@ -3,7 +3,6 @@ package ch.sbb.life;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public enum CellStatus {
     ALIVE {
