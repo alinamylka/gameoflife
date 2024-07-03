@@ -3,7 +3,9 @@ package ch.sbb.life;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import static ch.sbb.life.CellPosition.pos;
@@ -15,83 +17,79 @@ class WorldTest {
     @Test
     void a_living_cell_without_any_living_neighbour_dies() {
         // given
-        Map<CellPosition, CellStatus> population = population(6, 6, DEAD);
-        population.put(pos(4, 4), ALIVE);
-        World world = new World(population);
+        Set<CellPosition> population = new HashSet<>();
+        population.add(pos(4, 4));
+        World world = new World(population, 6, 6);
 
         // when
         World result = world.step();
 
         // then
-        assertEquals(result, deadWorld(6, 6));
+        assertEquals(result, new World(Set.of(), 6, 6));
+    }
+
+
+    @Test
+    void only_four_neighbours() {
+        // given
+        Set<CellPosition> population = new HashSet<>();
+        population.add(pos(0, 0));
+        population.add(pos(0, 1));
+        population.add(pos(1, 0));
+        World world = new World(population, 2, 2);
+        // when
+        World result = world.step();
+
+        // then
+        Set<CellPosition> expectedPopulation = new HashSet<>();
+        expectedPopulation.add(pos(0, 0));
+        expectedPopulation.add(pos(0, 1));
+        expectedPopulation.add(pos(1, 0));
+        expectedPopulation.add(pos(1, 1));
+        World expected = new World(expectedPopulation, 2, 2);
+
+        assertEquals(expected, result);
     }
 
     @Test
     void a_dead_cell_with_three_living_neighbour_lives() {
         // given
-        Map<CellPosition, CellStatus> population = population(6, 6, DEAD);
-        population.put(pos(2, 2), ALIVE);
-        population.put(pos(3, 2), ALIVE);
-        population.put(pos(4, 2), ALIVE);
-        World world = new World(population);
+        Set<CellPosition> population = new HashSet<>();
+        population.add(pos(2, 2));
+        population.add(pos(3, 2));
+        population.add(pos(4, 2));
+        World world = new World(population, 6, 6);
         // when
         World result = world.step();
 
         // then
-        Map<CellPosition, CellStatus> expectedPopulation = population(6, 6, DEAD);
-        expectedPopulation.put(pos(3, 1), ALIVE);
-        expectedPopulation.put(pos(3, 2), ALIVE);
-        expectedPopulation.put(pos(3, 3), ALIVE);
-        World expected = new World(expectedPopulation);
+        Set<CellPosition> expectedPopulation = new HashSet<>();
+        expectedPopulation.add(pos(3, 1));
+        expectedPopulation.add(pos(3, 2));
+        expectedPopulation.add(pos(3, 3));
+        World expected = new World(expectedPopulation, 6, 6);
 
         assertEquals(expected, result);
     }
 
-    @Test
-    void only_four_neighbours() {
-        // given
-        Map<CellPosition, CellStatus> population = population(2, 2, DEAD);
-        population.put(pos(0, 0), ALIVE);
-        population.put(pos(0, 1), ALIVE);
-        population.put(pos(1, 0), ALIVE);
-        World world = new World(population);
-        // when
-        World result = world.step();
-
-        // then
-        Map<CellPosition, CellStatus> expectedPopulation = population(2, 2, ALIVE);
-        World expected = new World(expectedPopulation);
-
-        assertEquals(expected, result);
-    }
 
     @Test
     void a_dead_cell_with_three_living_neighbour_lives_small_world() {
         // given
-        Map<CellPosition, CellStatus> population = population(3, 2, DEAD);
-        population.put(pos(0, 0), ALIVE);
-        population.put(pos(1, 0), ALIVE);
-        population.put(pos(2, 0), ALIVE);
-        World world = new World(population);
+        Set<CellPosition> population = new HashSet<>();
+        population.add(pos(0, 0));
+        population.add(pos(1, 0));
+        population.add(pos(2, 0));
+        World world = new World(population, 3, 2);
         // when
         World result = world.step();
 
         // then
-        Map<CellPosition, CellStatus> expectedPopulation = population(3, 2, DEAD);
-        expectedPopulation.put(pos(1, 0), ALIVE);
-        expectedPopulation.put(pos(1, 1), ALIVE);
-        World expected = new World(expectedPopulation);
+        Set<CellPosition> expectedPopulation = new HashSet<>();
+        expectedPopulation.add(pos(1, 0));
+        expectedPopulation.add(pos(1, 1));
+        World expected = new World(expectedPopulation, 3, 2);
 
         assertEquals(result, expected);
-    }
-
-    private World deadWorld(int width, int height) {
-        return new World(population(width, height, DEAD));
-    }
-
-    private static Map<CellPosition, CellStatus> population(int width, int height, CellStatus cellStatus) {
-        Map<CellPosition, CellStatus> population = new HashMap<>();
-        IntStream.range(0, width).forEach(x -> IntStream.range(0, height).forEach(y -> population.put(pos(x, y), cellStatus)));
-        return population;
     }
 }

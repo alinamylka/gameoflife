@@ -41,4 +41,8 @@ public class CellPosition {
                 ",y=" + y +
                 ')';
     }
+
+    public CellStatus toStatus(Set<CellPosition> aliveCells) {
+        return aliveCells.contains(this) ? CellStatus.ALIVE : CellStatus.DEAD;
+    }
 }
